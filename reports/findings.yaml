@@ -1,0 +1,61 @@
+# MP231 findings --- filled in by running the project code (src/atm_demand/).
+# Every value below was computed by running code against the original data files.
+
+group_id: "G020"
+problem_id: "MP231"
+
+data_issues:
+  # For each of the 7 kinds: present: true or false.
+  # If present is false, the other values are null.
+  leaking_column:
+    present: true
+    column: cash_reloaded_next_day   # absent from holdout_features.csv; Spearman r = 0.988 with target
+  unit_mixup:
+    present: false
+    column: null
+    group_value: null
+    factor: null
+  sentinel_value:
+    present: true
+    column: distance_to_market_km
+    value: 9999.0
+    count: 64
+  duplicate_rows:
+    present: true
+    count: 46
+  stuck_sensor:
+    present: false
+    column: null
+    start_date: null
+    end_date: null
+  target_typos:
+    present: true
+    count: 11            # values > 1200 sit in a gap between 1134.6 and 4076.0
+  spelling_variants:
+    present: true
+    column: atm_type
+    true_levels: 3       # bank_branch, mall, standalone
+
+tracking:
+  experiment_name: atm_cash_demand
+  best_run_id: 82aa9f40ebdb40e5ad47fb7cef4d21cc    # v1 best run (mae_val = 36.96)
+  registered_model_name: atm_demand_model
+  champion_version: 2                               # v2 promoted after retraining
+
+monitoring:
+  psi:                     # cleaned train.csv vs later.csv, 10 bins
+    nearby_shops: 4.6149
+    days_to_salary: 0.0314
+    footfall_index: 0.0185
+    distance_to_market_km: 0.1015
+    avg_ticket_rs: 0.0171
+    other_atms_1km: 0.0520
+  most_drifted_feature: nearby_shops
+  mae_by_group:            # v1 on later.csv, per value of area
+    'Market': 103.10
+    'Residential': 294.78
+    'Highway': 96.78
+  worst_served_group: Residential
+  mae_v1_on_check: 149.24  # v1 on the last 30% of later.csv (by date)
+  mae_v2_on_check: 67.53   # v2 on the same rows
+  decision: promote        # v2 MAE is 54.8% lower than v1, above the 15% threshold

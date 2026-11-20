@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Data (tracked via DVC, not committed)
+data/raw/train.csv
+data/raw/later.csv
+
+# MLflow artifacts and database
+mlflow.db
+mlruns/
+mlartifacts/
+
+# Tests
+tests/
+
+# DVC metadata
+.dvc/
+
+# Git
+.git/
+.gitignore
+
+# Editor and OS
+.vscode/
+.idea/
+*.DS_Store
+*.swp
+
+# Kubernetes (not needed in container)
+k8s/
+
+# Reports
+reports/
+
+# Predictions
+predictions/
+
+# README
+README.md
